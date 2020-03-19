@@ -1,4 +1,7 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   text-align: center;
   padding: 50px;
 }
