@@ -1,27 +1,37 @@
 import React, { useState } from "react";
 
-import { Button, TextField } from 'bold-ui'
+import { Button, TextField, VFlow } from 'bold-ui'
 
 const Home = () => {
     const [inputedNumber, setInputedNumber] = useState(0);
 
     return (
-        <div className="home-wrapper">
-        <TextField
-            name='number'
-            label='Number'
-            type='number'
-            placeholder='Enter a number'
-            onChange={(e) => setInputedNumber(e.target.value)}
-        />
-        <p>{inputedNumber}</p>
-        <Button 
-            kind='primary' 
-            skin='default'
+        <VFlow 
+            style={{ 
+                border: "1px solid #0069d0",
+                borderRadius: "6px",
+                height: "400px",
+                justifyContent: "space-around",
+                padding: "40px"
+            }}
         >
-            Verificar
-        </Button>
-    </div>
+            <TextField
+                name='number'
+                label='Number'
+                type='number'
+                placeholder='Enter a number'
+                onChange={(e) => setInputedNumber(e.target.value)}
+            />
+            <p>{inputedNumber}</p>
+            <Button 
+                kind='primary' 
+                skin='default'
+                size='large'
+                block
+            >
+                Verificar
+            </Button>
+        </VFlow>
     );
 };
 
