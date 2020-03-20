@@ -2,8 +2,16 @@ import React, { useState } from "react";
 
 import { Button, TextField, VFlow } from 'bold-ui'
 
+import { isPrime } from "../services.js";
+
 const Home = () => {
     const [inputedNumber, setInputedNumber] = useState(0);
+
+    const verificarSeEhPrimo = (number) => {
+        isPrime(number)
+        .then((res) => console.log(res))
+        .catch((e) => console.log(e))
+    } 
 
     return (
         <VFlow 
@@ -28,6 +36,7 @@ const Home = () => {
                 skin='default'
                 size='large'
                 block
+                onClick={() => verificarSeEhPrimo(inputedNumber)}
             >
                 Verificar
             </Button>
