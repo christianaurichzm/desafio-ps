@@ -30,23 +30,27 @@ const primeCheck = (number) => {
 };
 
 app.post("/prime-checker", (req, res) => {
-    const { number } = req.body;
+    const number = parseInt(req.body.number);
 
     res.json({ ok: false, isPrime: primeCheck(number) });
 });
 
 app.post("/dividers-checker", (req, res) => {
-    const { number } = req.body;
+    const number = parseInt(req.body.number);
 
-    const dividers = [1];
+    let dividers = [1];
 
     if (primeCheck(number)) {
-        dividers.push(parseInt(number));
+        dividers.push(number);
     } else {
-        for (let i = 2; i <= number; i++) {
-            if (number % i === 0) {
-                dividers.push(i);
+        if (number !== 0) {
+            for (let i = 2; i <= number; i++) {
+                if (number % i === 0) {
+                    dividers.push(i);
+                }
             }
+        } else {
+            dividers.shift();
         }
     }
 

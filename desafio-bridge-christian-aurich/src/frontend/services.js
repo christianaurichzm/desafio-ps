@@ -1,13 +1,17 @@
 /* eslint-disable quotes */
 async function isPrime (number) {
     let response = await runPost('/prime-checker', { number });
-    if (response.ok) { return { ok: true }; }
+    if (response.ok) { 
+        return { ok: true }; 
+    }
     return response.isPrime;
 }
 
 async function dividersChecker (number) {
     let response = await runPost('/dividers-checker', { number });
-    if (response.ok) { return { ok: true }; }
+    if (response.ok) { 
+        return { ok: true }; 
+    }
     return response.dividers;
 }
 
@@ -26,7 +30,9 @@ function runPostOrDelete (method, path, data) {
   
     return window.fetch(path, params)
         .then(response => {
-            if (!response.ok) { throw new Error('Communication fail'); }
+            if (!response.ok) { 
+                throw new Error('Communication fail'); 
+            }
             return response;
         })
         .then(response => response.json());

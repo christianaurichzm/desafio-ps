@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 
-import { Button, TextField, VFlow } from "bold-ui";
+import { Button, TextField, DataTable, VFlow } from "bold-ui";
 
 import { isPrime, dividersChecker } from "../services.js";
 
 const Home = () => {
-    const [inputedNumber, setInputedNumber] = useState(0);
+    const [inputedNumber, setInputedNumber] = useState(null);
+    const [primeMessage, setPrimeMessage] = useState("No number has been entered yet");
+    const [dividers, setDividers] = useState([]);
 
     const primeChecker = (number) => {
         isPrime(number)
-            .then((res) => console.log(res))
+            .then((res) => setPrimeMessage(res ? "Is prime" : "Is not prime"))
             .catch((e) => console.log(e));
     };
 
-    const dividers = (number) => {
+    const getDividers = (number) => {
         dividersChecker(number)
-            .then((res) => console.log(res))
+            .then((res) => setDividers(res))
             .catch((e) => console.log(e));
     };
 
     const submitNumber = () => {
         primeChecker(inputedNumber);
-        dividers(inputedNumber);
+        getDividers(inputedNumber);
     };
 
     return (
         <VFlow
             style={{
-                border: "1px solid #0069d0",
-                borderRadius: "6px",
                 height: "400px",
                 justifyContent: "space-around",
                 padding: "40px",
@@ -41,13 +41,24 @@ const Home = () => {
                 placeholder="Enter a number"
                 onChange={(e) => setInputedNumber(e.target.value)}
             />
-            <p>{inputedNumber}</p>
+            <p>{primeMessage}</p>
+            <DataTable
+                rows={dividers}
+                loading={false}
+                columns={[
+                    {
+                        name: "divider",
+                        header: "Divider",
+                        render: item => item,
+                    },                 
+                ]}
+            />
             <Button
                 kind="primary"
                 skin="default"
                 size="large"
                 block
-                onClick={submitNumber()}
+                onClick={() => submitNumber()}
             >
                 Verificar
             </Button>
