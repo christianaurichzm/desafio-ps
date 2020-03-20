@@ -1,10 +1,56 @@
-const express = require('express');
+/* eslint-disable no-undef */
+const express = require("express");
+const helmet = require("helmet");
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = process.env.PORT || 5000;
+app.use(bodyParser.json());
+app.use(helmet());
 
-app.get('/', (req, res) => {
-  res.send({ express: 'Servidor Express' });
+const port = 5000;
+
+app.get("/", (req, res) => {
+    res.send({ express: "Express server" });
+});
+
+const primeCheck = (number) => {
+    let isPrime = true;
+
+    if (number < 2) {
+        isPrime = false;
+    } else {
+        for (let i = 2; i < number; i++) {
+            if (number % i === 0) {
+                isPrime = false;
+            }
+        }
+    }
+
+    return isPrime;
+};
+
+app.post("/prime-checker", (req, res) => {
+    const { number } = req.body;
+
+    res.json({ ok: false, isPrime: primeCheck(number) });
+});
+
+app.post("/dividers-checker", (req, res) => {
+    const { number } = req.body;
+
+    const dividers = [1];
+
+    if (primeCheck(number)) {
+        dividers.push(parseInt(number));
+    } else {
+        for (let i = 2; i <= number; i++) {
+            if (number % i === 0) {
+                dividers.push(i);
+            }
+        }
+    }
+
+    res.json({ ok: false, dividers });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
