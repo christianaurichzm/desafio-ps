@@ -6,22 +6,24 @@ import { isPrime, dividersChecker } from "../services.js";
 
 const Home = () => {
     const [inputedNumber, setInputedNumber] = useState(0);
+    const [primeMessage, setPrimeMessage] = useState("No number has been entered yet");
+    const [, setDividers] = useState([]);
 
     const primeChecker = (number) => {
         isPrime(number)
-            .then((res) => console.log(res))
+            .then((res) => setPrimeMessage(res ? "Is prime" : "Is not prime"))
             .catch((e) => console.log(e));
     };
 
-    const dividers = (number) => {
+    const getDividers = (number) => {
         dividersChecker(number)
-            .then((res) => console.log(res))
+            .then((res) => setDividers(res))
             .catch((e) => console.log(e));
     };
 
     const submitNumber = () => {
         primeChecker(inputedNumber);
-        dividers(inputedNumber);
+        getDividers(inputedNumber);
     };
 
     return (
@@ -41,13 +43,13 @@ const Home = () => {
                 placeholder="Enter a number"
                 onChange={(e) => setInputedNumber(e.target.value)}
             />
-            <p>{inputedNumber}</p>
+            <p>{primeMessage}</p>
             <Button
                 kind="primary"
                 skin="default"
                 size="large"
                 block
-                onClick={submitNumber()}
+                onClick={() => submitNumber()}
             >
                 Verificar
             </Button>
