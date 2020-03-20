@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import { Button, TextField, VFlow } from "bold-ui";
+import { Button, TextField, DataTable, VFlow } from "bold-ui";
 
 import { isPrime, dividersChecker } from "../services.js";
 
 const Home = () => {
-    const [inputedNumber, setInputedNumber] = useState(0);
+    const [inputedNumber, setInputedNumber] = useState(null);
     const [primeMessage, setPrimeMessage] = useState("No number has been entered yet");
-    const [, setDividers] = useState([]);
+    const [dividers, setDividers] = useState([]);
 
     const primeChecker = (number) => {
         isPrime(number)
@@ -29,8 +29,6 @@ const Home = () => {
     return (
         <VFlow
             style={{
-                border: "1px solid #0069d0",
-                borderRadius: "6px",
                 height: "400px",
                 justifyContent: "space-around",
                 padding: "40px",
@@ -44,6 +42,17 @@ const Home = () => {
                 onChange={(e) => setInputedNumber(e.target.value)}
             />
             <p>{primeMessage}</p>
+            <DataTable
+                rows={dividers}
+                loading={false}
+                columns={[
+                    {
+                        name: "divider",
+                        header: "Divider",
+                        render: item => item,
+                    },                 
+                ]}
+            />
             <Button
                 kind="primary"
                 skin="default"
