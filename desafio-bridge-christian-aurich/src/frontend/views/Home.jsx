@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, TextField, PagedTable, VFlow } from "bold-ui";
+import { Button, TextField, PagedTable, Icon, Text, VFlow } from "bold-ui";
 
 import { isPrime, divisorsChecker } from "../services.js";
 
@@ -45,50 +45,59 @@ const Home = () => {
 
     return (
         <div className="app-content-wrapper">
-            <VFlow
-                style={{
-                    justifyContent: "space-around",
-                    padding: "40px",
-                }}
-            >
-                <TextField
-                    name="number"
-                    label="Número"
-                    type="number"
-                    placeholder="Digite um número natural"
-                    required
-                    onChange={(e) => setInputedNumber(e.target.value)}
-                />
-                <p>{primeMessage}</p>
-                <PagedTable
-                    rows={rows}
-                    page={tableParams.page}
-                    size={tableParams.size}
-                    totalElements={tableParams.totalElements}
-                    totalPages={tableParams.totalPages}
-                    onSortChange={handleSortChange}
-                    onPageChange={handlePageChange}
-                    onSizeChange={handleSizeChange}
-                    loading={false}
-                    columns={[
-                        {
-                            name: "divisor",
-                            header: "Divisor",
-                            align: "center",
-                            render: item => item,
-                        },                 
-                    ]}
-                />
-                <Button
-                    kind="primary"
-                    skin="default"
-                    size="large"
-                    onClick={() => submitNumber()}
-                    disabled={!inputedNumber}
+            <div className="home-wrapper">
+                <VFlow
+                    vSpacing={2}
+                    style={{
+                        padding: "40px",
+                    }}
                 >
-                    Verificar
-                </Button>
-            </VFlow>
+                    <TextField
+                        name="number"
+                        label="Número"
+                        type="number"
+                        placeholder="Digite um número natural"
+                        required
+                        onChange={(e) => setInputedNumber(e.target.value)}
+                    />
+                    <p>{primeMessage}</p>
+                    <div>
+                        <PagedTable
+                            rows={rows}
+                            page={tableParams.page}
+                            size={tableParams.size}
+                            totalElements={tableParams.totalElements}
+                            totalPages={tableParams.totalPages}
+                            onSortChange={handleSortChange}
+                            onPageChange={handlePageChange}
+                            onSizeChange={handleSizeChange}
+                            loading={false}
+                            columns={[
+                                {
+                                    name: "divisor",
+                                    header: "Divisor",
+                                    align: "center",
+                                    render: item => item,
+                                },                 
+                            ]}
+                        />
+                    </div>
+                    <Button
+                        kind="primary"
+                        skin="default"
+                        size="large"
+                        onClick={() => submitNumber()}
+                        disabled={!inputedNumber}
+                    >
+                        <Icon 
+                            icon="plus" 
+                            style={{ 
+                                marginRight: "0.5rem",
+                            }} />
+                        <Text color='inherit'>Verificar</Text>
+                    </Button>
+                </VFlow>
+            </div>
         </div>
     );
 };
