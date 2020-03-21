@@ -7,12 +7,12 @@ async function isPrime (number) {
     return response.isPrime;
 }
 
-async function dividersChecker (number) {
-    let response = await runPost('/dividers-checker', { number });
+async function divisorsChecker (number) {
+    let response = await runPost('/divisors-checker', { number });
     if (response.ok) { 
         return { ok: true }; 
     }
-    return response.dividers;
+    return response.divisors;
 }
 
 function runPost (path, data) {
@@ -38,4 +38,4 @@ function runPostOrDelete (method, path, data) {
         .then(response => response.json());
 }
 
-export { isPrime, dividersChecker };
+export { isPrime, divisorsChecker };

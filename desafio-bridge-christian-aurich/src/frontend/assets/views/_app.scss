@@ -1,0 +1,20 @@
+#app-wrapper-content {
+  justify-content: center;
+  text-align: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+
+    #app {
+      height: 100%;
+      width: 100%;
+    }
+
+    .app-content-wrapper {
+      height: calc(100% - 60px); // 100% - header
+      justify-content: space-between;
+      flex-direction: column;
+      display: flex;
+      width: 100%;
+    }  
+}

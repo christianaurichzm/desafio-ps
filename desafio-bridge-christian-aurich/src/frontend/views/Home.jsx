@@ -1,13 +1,40 @@
 import React, { useState } from "react";
 
-import { Button, TextField, DataTable, VFlow } from "bold-ui";
+import { Button, TextField, PagedTable, VFlow } from "bold-ui";
 
-import { isPrime, dividersChecker } from "../services.js";
+import { isPrime, divisorsChecker } from "../services.js";
 
 const Home = () => {
     const [inputedNumber, setInputedNumber] = useState(null);
-    const [primeMessage, setPrimeMessage] = useState("No number has been entered yet");
-    const [dividers, setDividers] = useState([]);
+    const [primeMessage, setPrimeMessage] = useState("Nenhum número foi digitado ainda.");
+    const [divisors, setDivisors] = useState([]);
+    const [tableParams, setTableParams] = useState({
+        page: 0,
+        size: 5,
+        sort: ["divisor"],
+    });
+
+    console.log(tableParams);
+
+    const rows = divisors
+    // Naive sorting for example purposes:
+        .sort((a, b) => {
+            if (tableParams.sort[0] === "id") {
+                return a.id - b.id;
+            }
+            if (tableParams.sort[0] === "-id") {
+                return b.id - a.id;
+            }
+            return 0;
+        })
+    // Naive pagination for example purposes:
+        .slice(tableParams.page * tableParams.size, tableParams.page * tableParams.size + tableParams.size);
+
+    const handleSortChange = (sort) => setTableParams((prevState) => ({ ...prevState, sort }));
+
+    const handlePageChange = (page) => setTableParams((prevState) => ({ ...prevState, page }));
+
+    const handleSizeChange = (size) => setTableParams((prevState) => ( { ...prevState, size, totalPages: Math.max(1, prevState.totalElements / size) } ));
 
     const primeChecker = (number) => {
         isPrime(number)
@@ -16,8 +43,12 @@ const Home = () => {
     };
 
     const getDividers = (number) => {
-        dividersChecker(number)
-            .then((res) => setDividers(res))
+        divisorsChecker(number)
+            .then((res) => {
+                setDivisors(res);
+                setTableParams((prevState) => ({ ...prevState, totalElements: res.length }));
+                setTableParams((prevState) => ({ ...prevState, totalPages: Math.max(1, res.length / prevState.size) }));
+            })
             .catch((e) => console.log(e));
     };
 
@@ -27,42 +58,52 @@ const Home = () => {
     };
 
     return (
-        <VFlow
-            style={{
-                height: "400px",
-                justifyContent: "space-around",
-                padding: "40px",
-            }}
-        >
-            <TextField
-                name="number"
-                label="Number"
-                type="number"
-                placeholder="Enter a number"
-                onChange={(e) => setInputedNumber(e.target.value)}
-            />
-            <p>{primeMessage}</p>
-            <DataTable
-                rows={dividers}
-                loading={false}
-                columns={[
-                    {
-                        name: "divider",
-                        header: "Divider",
-                        render: item => item,
-                    },                 
-                ]}
-            />
-            <Button
-                kind="primary"
-                skin="default"
-                size="large"
-                block
-                onClick={() => submitNumber()}
+        <div className="app-content-wrapper">
+            <VFlow
+                style={{
+                    justifyContent: "space-around",
+                    padding: "40px",
+                }}
             >
-                Verificar
-            </Button>
-        </VFlow>
+                <TextField
+                    name="number"
+                    label="Número"
+                    type="number"
+                    placeholder="Digite um número natural"
+                    required
+                    onChange={(e) => setInputedNumber(e.target.value)}
+                />
+                <p>{primeMessage}</p>
+                <PagedTable
+                    rows={rows}
+                    page={tableParams.page}
+                    size={tableParams.size}
+                    totalElements={tableParams.totalElements}
+                    totalPages={tableParams.totalPages}
+                    onSortChange={handleSortChange}
+                    onPageChange={handlePageChange}
+                    onSizeChange={handleSizeChange}
+                    loading={false}
+                    sort={tableParams.sort}
+                    columns={[
+                        {
+                            name: "divisor",
+                            header: "Divisor",
+                            align: "center",
+                            render: item => item,
+                        },                 
+                    ]}
+                />
+                <Button
+                    kind="primary"
+                    skin="default"
+                    size="large"
+                    onClick={() => submitNumber()}
+                >
+                    Verificar
+                </Button>
+            </VFlow>
+        </div>
     );
 };
 
