@@ -84,6 +84,7 @@ const Home = () => {
                     skin="default"
                     size="large"
                     onClick={() => submitNumber()}
+                    disabled={!inputedNumber}
                 >
                     Verificar
                 </Button>
