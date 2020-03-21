@@ -11,30 +11,16 @@ const Home = () => {
     const [tableParams, setTableParams] = useState({
         page: 0,
         size: 5,
-        sort: ["divisor"],
     });
 
-    console.log(tableParams);
-
     const rows = divisors
-    // Naive sorting for example purposes:
-        .sort((a, b) => {
-            if (tableParams.sort[0] === "id") {
-                return a.id - b.id;
-            }
-            if (tableParams.sort[0] === "-id") {
-                return b.id - a.id;
-            }
-            return 0;
-        })
-    // Naive pagination for example purposes:
         .slice(tableParams.page * tableParams.size, tableParams.page * tableParams.size + tableParams.size);
 
     const handleSortChange = (sort) => setTableParams((prevState) => ({ ...prevState, sort }));
 
     const handlePageChange = (page) => setTableParams((prevState) => ({ ...prevState, page }));
 
-    const handleSizeChange = (size) => setTableParams((prevState) => ( { ...prevState, size, totalPages: Math.max(1, prevState.totalElements / size) } ));
+    const handleSizeChange = (size) => setTableParams((prevState) => ( { ...prevState, size, totalPages: Math.max(1, Math.floor((prevState.totalElements / size) + 1)) } ));
 
     const primeChecker = (number) => {
         isPrime(number)
@@ -47,7 +33,7 @@ const Home = () => {
             .then((res) => {
                 setDivisors(res);
                 setTableParams((prevState) => ({ ...prevState, totalElements: res.length }));
-                setTableParams((prevState) => ({ ...prevState, totalPages: Math.max(1, res.length / prevState.size) }));
+                setTableParams((prevState) => ({ ...prevState, totalPages: Math.round(res.length / prevState.size) }));
             })
             .catch((e) => console.log(e));
     };
@@ -84,7 +70,6 @@ const Home = () => {
                     onPageChange={handlePageChange}
                     onSizeChange={handleSizeChange}
                     loading={false}
-                    sort={tableParams.sort}
                     columns={[
                         {
                             name: "divisor",
