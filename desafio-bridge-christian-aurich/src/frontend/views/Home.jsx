@@ -24,7 +24,7 @@ const Home = () => {
 
     const primeChecker = (number) => {
         isPrime(number)
-            .then((res) => setPrimeMessage(res ? "Is prime" : "Is not prime"))
+            .then((res) => setPrimeMessage(res ? `O número ${inputedNumber} é primo` : `O número ${inputedNumber} não é primo`))
             .catch((e) => console.log(e));
     };
 
