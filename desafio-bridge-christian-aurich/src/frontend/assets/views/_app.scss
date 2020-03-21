@@ -1,0 +1,26 @@
+#app-wrapper-content {
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 0 40px;
+
+  @media screen and (max-width: 360px), screen and (max-height: 568px) {
+    padding: 0;
+  }
+
+    #app {
+      height: 100%;
+      width: 100%;
+    }
+
+    .app-content-wrapper {
+      height: calc(100% - 10px);
+      margin-top: 20px;
+      justify-content: space-between;
+      flex-direction: column;
+      display: flex;
+      width: 100%;
+    }  
+}

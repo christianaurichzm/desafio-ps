@@ -35,26 +35,26 @@ app.post("/prime-checker", (req, res) => {
     res.json({ ok: false, isPrime: primeCheck(number) });
 });
 
-app.post("/dividers-checker", (req, res) => {
+app.post("/divisors-checker", (req, res) => {
     const number = parseInt(req.body.number);
 
-    let dividers = [1];
+    let divisors = [1];
 
     if (primeCheck(number)) {
-        dividers.push(number);
+        divisors.push(number);
     } else {
         if (number !== 0) {
             for (let i = 2; i <= number; i++) {
                 if (number % i === 0) {
-                    dividers.push(i);
+                    divisors.push(i);
                 }
             }
         } else {
-            dividers.shift();
+            divisors.shift();
         }
     }
 
-    res.json({ ok: false, dividers });
+    res.json({ ok: false, divisors });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
