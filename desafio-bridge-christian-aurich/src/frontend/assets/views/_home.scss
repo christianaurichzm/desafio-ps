@@ -1,3 +1,7 @@
 .home-wrapper {
     border: 1px solid #0069D0;
+
+    @media screen and (max-width: 414px), screen and (max-height: 812px) {
+        border: none;
+    }
 }

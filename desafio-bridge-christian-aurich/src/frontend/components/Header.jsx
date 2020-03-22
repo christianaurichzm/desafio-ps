@@ -3,7 +3,7 @@ import React from "react";
 import { Text, VFlow } from "bold-ui";
 
 const Header = () => (
-    <VFlow vSpacing={0}>
+    <VFlow vSpacing={1.8}>
         <Text>
             <h1 className="header-default">
                 Desafio Bridge_ - Christian Aurich Zanettini Martins
