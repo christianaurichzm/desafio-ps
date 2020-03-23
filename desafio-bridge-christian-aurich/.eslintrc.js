@@ -26,6 +26,7 @@ module.exports = {
             "error",
             4
         ],
+        "react/prop-types": 0,
         "linebreak-style": [
             "error",
             "windows"
