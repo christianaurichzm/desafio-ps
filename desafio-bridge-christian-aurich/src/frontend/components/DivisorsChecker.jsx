@@ -122,7 +122,7 @@ const DivisorsChecker = () => {
                 disabled={!inputedNumber}
             >
                 <Icon 
-                    icon="plus" 
+                    icon="playOutline" 
                     style={{ 
                         marginRight: "0.5rem",
                     }} />
