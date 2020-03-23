@@ -99,4 +99,3 @@ const DivisorsChecker = () => {
 };
 
 export default DivisorsChecker;
-
