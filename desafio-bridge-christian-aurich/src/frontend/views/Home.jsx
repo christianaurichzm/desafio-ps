@@ -4,9 +4,7 @@ import DivisorsChecker from "../components/DivisorsChecker";
 
 const Home = () => (
     <div className="app-content-wrapper">
-        <div className="home-wrapper">
-            <DivisorsChecker />
-        </div>
+        <DivisorsChecker />
     </div>
 );
 

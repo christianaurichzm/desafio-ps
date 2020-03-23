@@ -57,7 +57,7 @@ const DivisorsChecker = () => {
                 required
                 onChange={(e) => setInputedNumber(e.target.value)}
             />
-            <p>{primeMessage}</p>
+            <Text color='inherit'>{primeMessage}</Text>
             <div>
                 <PagedTable
                     rows={rows}
