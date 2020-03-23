@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 
 import { Button, TextField, PagedTable, Icon, Text, VFlow } from "bold-ui";
 import ErrorMessage from "./ErrorMessage";
@@ -13,6 +14,7 @@ const DivisorsChecker = () => {
         size: 10,
     });
     const [errorMessage, setErrorMessage] = useState("");
+    const { promiseInProgress } = usePromiseTracker();
 
     const rows = divisors
         .slice(tableParams.page * tableParams.size, tableParams.page * tableParams.size + tableParams.size);
@@ -43,17 +45,18 @@ const DivisorsChecker = () => {
     };
 
     const getDividers = (number) => {
-        divisorsChecker(number)
-            .then((res) => {
-                setDivisors(res);
-                setTableParams((prevState) => ({
-                    ...prevState, totalElements: res.length 
-                }));
-                setTableParams((prevState) => ({
-                    ...prevState, totalPages: Math.max(1, Math.round(res.length / prevState.size)) 
-                }));
-            })
-            .catch((e) => setErrorMessage(e.message));
+        trackPromise(
+            divisorsChecker(number)
+                .then((res) => {
+                    setDivisors(res);
+                    setTableParams((prevState) => ({
+                        ...prevState, totalElements: res.length 
+                    }));
+                    setTableParams((prevState) => ({
+                        ...prevState, totalPages: Math.max(1, Math.round(res.length / prevState.size)) 
+                    }));
+                })
+        ).catch((e) => setErrorMessage(e.message));
     };
 
     const submitNumber = () => {
@@ -92,7 +95,7 @@ const DivisorsChecker = () => {
                     onSortChange={handleSortChange}
                     onPageChange={handlePageChange}
                     onSizeChange={handleSizeChange}
-                    loading={false}
+                    loading={promiseInProgress}
                     columns={[
                         {
                             name: "divisor",
@@ -107,7 +110,7 @@ const DivisorsChecker = () => {
                 kind="primary"
                 skin="default"
                 size="large"
-                onClick={() => submitNumber()}
+                onClick={submitNumber}
                 disabled={!inputedNumber}
             >
                 <Icon 
