@@ -7,7 +7,7 @@ import { isPrime, divisorsChecker } from "../services.js";
 import naturalNumberChecker from "../utils/naturalNumberChecker.js";
 
 const DivisorsChecker = () => {
-    const [inputedNumber, setInputedNumber] = useState(0);
+    const [inputedNumber, setInputedNumber] = useState(null);
     const [primeMessage, setPrimeMessage] = useState("Nenhum número foi digitado ainda.");
     const [divisors, setDivisors] = useState([]);
     const [tableParams, setTableParams] = useState({
@@ -33,7 +33,7 @@ const DivisorsChecker = () => {
     const handleSizeChange = (size) => setTableParams((prevState) => ( { 
         ...prevState,
         size,
-        totalPages: Math.max(1, Math.round(prevState.totalElements / size)) 
+        totalPages: Math.max(1, Math.floor((prevState.totalElements / size) + 1)) 
     }));
 
     const primeChecker = (number) => {
@@ -54,16 +54,16 @@ const DivisorsChecker = () => {
                         ...prevState, totalElements: res.length 
                     }));
                     setTableParams((prevState) => ({
-                        ...prevState, totalPages: Math.max(1, Math.round(res.length / prevState.size)) 
+                        ...prevState, totalPages: Math.max(1, Math.floor((res.length / prevState.size) + 1)) 
                     }));
                 })
         ).catch((e) => setErrorMessage(e.message));
     };
 
     const submitNumber = (number) => {
-        if (naturalNumberChecker(number)) {
-            primeChecker(inputedNumber);
-            getDividers(inputedNumber);
+        if (naturalNumberChecker(Number(number))) {
+            primeChecker(Number(inputedNumber));
+            getDividers(Number(inputedNumber));
             setErrorMessage("");
         } else {
             setPrimeMessage("");
@@ -88,10 +88,9 @@ const DivisorsChecker = () => {
                 name="number"
                 label="Número"
                 type="number"
-                min={0}
                 placeholder="Digite um número natural"
                 required
-                onChange={(e) => setInputedNumber(Number(e.target.value))}
+                onChange={(e) => setInputedNumber(e.target.value)}
             />
             <Text color='inherit'>{primeMessage}</Text>
             <div>
