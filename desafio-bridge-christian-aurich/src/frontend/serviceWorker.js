@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable quotes */
+/* eslint-disable indent */
 // This optional code is used to register a service worker.
 // register() is not called by default.
 

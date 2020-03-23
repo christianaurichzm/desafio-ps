@@ -1,7 +1,7 @@
 import React from "react";
 
-import Header from "./frontend/components/Header";
-import Home from "./frontend/views/Home";
+import Header from "./components/Header";
+import Home from "./views/Home";
 
 const App = () => (
     <div id="app-wrapper-content">
