@@ -11,7 +11,7 @@ const Header = () => (
         </Text>
         <Text>
             <h4>
-                Insira um número natural no campo abaixo para poder
+                Insira um número natural (inteiro e positivo) no campo abaixo para poder
                 verificar se o mesmo é primo, e quais são seus divisores
             </h4>
         </Text>
