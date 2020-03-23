@@ -31,7 +31,7 @@ function runPostOrDelete (method, path, data) {
     return window.fetch(path, params)
         .then(response => {
             if (!response.ok) { 
-                throw new Error('Communication fail'); 
+                throw new Error('Houve um problema de comunicação com o servidor da aplicação. Tente novamente mais tarde.'); 
             }
             return response;
         })

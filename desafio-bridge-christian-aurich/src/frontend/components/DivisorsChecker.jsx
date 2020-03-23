@@ -1,40 +1,59 @@
 import React, { useState } from "react";
 
 import { Button, TextField, PagedTable, Icon, Text, VFlow } from "bold-ui";
+import ErrorMessage from "./ErrorMessage";
 import { isPrime, divisorsChecker } from "../services.js";
 
 const DivisorsChecker = () => {
-    const [inputedNumber, setInputedNumber] = useState(null);
+    const [inputedNumber, setInputedNumber] = useState(0);
     const [primeMessage, setPrimeMessage] = useState("Nenhum número foi digitado ainda.");
     const [divisors, setDivisors] = useState([]);
     const [tableParams, setTableParams] = useState({
         page: 0,
         size: 10,
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
     const rows = divisors
         .slice(tableParams.page * tableParams.size, tableParams.page * tableParams.size + tableParams.size);
 
-    const handleSortChange = (sort) => setTableParams((prevState) => ({ ...prevState, sort }));
+    const handleSortChange = (sort) => setTableParams((prevState) => ({
+        ...prevState,
+        sort 
+    }));
 
-    const handlePageChange = (page) => setTableParams((prevState) => ({ ...prevState, page }));
+    const handlePageChange = (page) => setTableParams((prevState) => ({
+        ...prevState,
+        page 
+    }));
 
-    const handleSizeChange = (size) => setTableParams((prevState) => ( { ...prevState, size, totalPages: Math.max(1, Math.round(prevState.totalElements / size)) } ));
+    const handleSizeChange = (size) => setTableParams((prevState) => ( { 
+        ...prevState,
+        size,
+        totalPages: Math.max(1, Math.round(prevState.totalElements / size)) 
+    }));
 
     const primeChecker = (number) => {
         isPrime(number)
-            .then((res) => setPrimeMessage(res ? `O número ${inputedNumber} é primo` : `O número ${inputedNumber} não é primo`))
-            .catch((e) => console.log(e));
+            .then((res) => setPrimeMessage(res ?
+                `O número ${inputedNumber} é primo` :
+                `O número ${inputedNumber} não é primo`)
+            )
+            .catch((e) => setErrorMessage(e.message));
     };
 
     const getDividers = (number) => {
         divisorsChecker(number)
             .then((res) => {
                 setDivisors(res);
-                setTableParams((prevState) => ({ ...prevState, totalElements: res.length }));
-                setTableParams((prevState) => ({ ...prevState, totalPages: Math.max(1, Math.round(res.length / prevState.size)) }));
+                setTableParams((prevState) => ({
+                    ...prevState, totalElements: res.length 
+                }));
+                setTableParams((prevState) => ({
+                    ...prevState, totalPages: Math.max(1, Math.round(res.length / prevState.size)) 
+                }));
             })
-            .catch((e) => console.log(e));
+            .catch((e) => setErrorMessage(e.message));
     };
 
     const submitNumber = () => {
@@ -42,13 +61,18 @@ const DivisorsChecker = () => {
         getDividers(inputedNumber);
     };
 
-    return(
+    return (
         <VFlow
             vSpacing={2}
             style={{
                 padding: "40px",
             }}
         >
+            {
+                errorMessage && (
+                    <ErrorMessage message={errorMessage} />
+                )
+            }
             <TextField
                 name="number"
                 label="Número"
