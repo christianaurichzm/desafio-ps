@@ -10,7 +10,7 @@ const Home = () => {
     const [divisors, setDivisors] = useState([]);
     const [tableParams, setTableParams] = useState({
         page: 0,
-        size: 5,
+        size: 10,
     });
 
     const rows = divisors
@@ -20,7 +20,7 @@ const Home = () => {
 
     const handlePageChange = (page) => setTableParams((prevState) => ({ ...prevState, page }));
 
-    const handleSizeChange = (size) => setTableParams((prevState) => ( { ...prevState, size, totalPages: Math.max(1, Math.floor((prevState.totalElements / size) + 1)) } ));
+    const handleSizeChange = (size) => setTableParams((prevState) => ( { ...prevState, size, totalPages: Math.max(1, Math.round(prevState.totalElements / size)) } ));
 
     const primeChecker = (number) => {
         isPrime(number)
@@ -33,7 +33,7 @@ const Home = () => {
             .then((res) => {
                 setDivisors(res);
                 setTableParams((prevState) => ({ ...prevState, totalElements: res.length }));
-                setTableParams((prevState) => ({ ...prevState, totalPages: Math.round(res.length / prevState.size) }));
+                setTableParams((prevState) => ({ ...prevState, totalPages: Math.max(1, Math.round(res.length / prevState.size)) }));
             })
             .catch((e) => console.log(e));
     };
