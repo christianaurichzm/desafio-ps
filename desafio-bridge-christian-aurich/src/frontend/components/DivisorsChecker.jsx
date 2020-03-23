@@ -4,6 +4,7 @@ import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 import { Button, TextField, PagedTable, Icon, Text, VFlow } from "bold-ui";
 import ErrorMessage from "./ErrorMessage";
 import { isPrime, divisorsChecker } from "../services.js";
+import naturalNumberChecker from "../utils/naturalNumberChecker.js";
 
 const DivisorsChecker = () => {
     const [inputedNumber, setInputedNumber] = useState(0);
@@ -59,9 +60,16 @@ const DivisorsChecker = () => {
         ).catch((e) => setErrorMessage(e.message));
     };
 
-    const submitNumber = () => {
-        primeChecker(inputedNumber);
-        getDividers(inputedNumber);
+    const submitNumber = (number) => {
+        if (naturalNumberChecker(number)) {
+            primeChecker(inputedNumber);
+            getDividers(inputedNumber);
+            setErrorMessage("");
+        } else {
+            setPrimeMessage("");
+            setDivisors([]);
+            setErrorMessage("Digite um número natural.");
+        }
     };
 
     return (
@@ -80,9 +88,10 @@ const DivisorsChecker = () => {
                 name="number"
                 label="Número"
                 type="number"
+                min={0}
                 placeholder="Digite um número natural"
                 required
-                onChange={(e) => setInputedNumber(e.target.value)}
+                onChange={(e) => setInputedNumber(Number(e.target.value))}
             />
             <Text color='inherit'>{primeMessage}</Text>
             <div>
@@ -110,7 +119,7 @@ const DivisorsChecker = () => {
                 kind="primary"
                 skin="default"
                 size="large"
-                onClick={submitNumber}
+                onClick={() => submitNumber(inputedNumber)}
                 disabled={!inputedNumber}
             >
                 <Icon 
