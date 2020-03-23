@@ -1,6 +1,5 @@
-/* eslint-disable quotes */
 async function isPrime (number) {
-    let response = await runPost('/prime-checker', { number });
+    let response = await runPost("/prime-checker", { number });
     if (response.ok) { 
         return { ok: true }; 
     }
@@ -8,7 +7,7 @@ async function isPrime (number) {
 }
 
 async function divisorsChecker (number) {
-    let response = await runPost('/divisors-checker', { number });
+    let response = await runPost("/divisors-checker", { number });
     if (response.ok) { 
         return { ok: true }; 
     }
@@ -16,14 +15,14 @@ async function divisorsChecker (number) {
 }
 
 function runPost (path, data) {
-    return runPostOrDelete('POST', path, data);
+    return runPostOrDelete("POST", path, data);
 }
   
 function runPostOrDelete (method, path, data) {
     const params = {
         method: method,
         headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json"
         },
         body: JSON.stringify(data)
     };
@@ -31,7 +30,7 @@ function runPostOrDelete (method, path, data) {
     return window.fetch(path, params)
         .then(response => {
             if (!response.ok) { 
-                throw new Error('Houve um problema de comunicação com o servidor da aplicação. Tente novamente mais tarde.'); 
+                throw new Error("Houve um problema de comunicação com o servidor da aplicação. Tente novamente mais tarde."); 
             }
             return response;
         })
