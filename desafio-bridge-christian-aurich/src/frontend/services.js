@@ -1,17 +1,6 @@
-async function isPrime (number) {
-    let response = await runPost("/prime-checker", { number });
-    if (response.ok) { 
-        return { ok: true }; 
-    }
-    return response.isPrime;
-}
-
-async function divisorsChecker (number) {
-    let response = await runPost("/divisors-checker", { number });
-    if (response.ok) { 
-        return { ok: true }; 
-    }
-    return response.divisors;
+async function numberCheckerService (number) {
+    let response = await runPost("/number-checker", { number });
+    return response;
 }
 
 function runPost (path, data) {
@@ -37,4 +26,4 @@ function runPostOrDelete (method, path, data) {
         .then(response => response.json());
 }
 
-export { isPrime, divisorsChecker };
+export { numberCheckerService };

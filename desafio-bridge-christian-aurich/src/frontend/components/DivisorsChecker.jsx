@@ -3,7 +3,7 @@ import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 
 import { Button, TextField, PagedTable, Icon, Text, VFlow } from "bold-ui";
 import ErrorMessage from "./ErrorMessage";
-import { isPrime, divisorsChecker } from "../services.js";
+import { numberCheckerService } from "../services.js";
 import naturalNumberChecker from "../utils/naturalNumberChecker.js";
 
 const DivisorsChecker = () => {
@@ -36,34 +36,25 @@ const DivisorsChecker = () => {
         totalPages: Math.max(1, Math.floor((prevState.totalElements / size) + 1)) 
     }));
 
-    const primeChecker = (number) => {
-        isPrime(number)
-            .then((res) => setPrimeMessage(res ?
-                `O número ${inputedNumber} é primo` :
-                `O número ${inputedNumber} não é primo`)
-            )
-            .catch((e) => setErrorMessage(e.message));
-    };
-
-    const getDividers = (number) => {
+    const numberChecker = (number) => {
         trackPromise(
-            divisorsChecker(number)
-                .then((res) => {
-                    setDivisors(res);
+            numberCheckerService(number)
+                .then(({divisors, isPrime}) => {
+                    setPrimeMessage(isPrime ?
+                    `O número ${inputedNumber} é primo` :
+                    `O número ${inputedNumber} não é primo`);
+                    setDivisors(divisors);
                     setTableParams((prevState) => ({
-                        ...prevState, totalElements: res.length 
-                    }));
-                    setTableParams((prevState) => ({
-                        ...prevState, totalPages: Math.max(1, Math.floor((res.length / prevState.size) + 1)) 
+                        ...prevState, totalElements: divisors.length, totalPages: Math.max(1, Math.floor((divisors.length / prevState.size) + 1)) 
                     }));
                 })
-        ).catch((e) => setErrorMessage(e.message));
+        )
+        .catch((e) => setErrorMessage(e.message));
     };
 
     const submitNumber = (number) => {
         if (naturalNumberChecker(Number(number))) {
-            primeChecker(Number(inputedNumber));
-            getDividers(Number(inputedNumber));
+            numberChecker(Number(number));
             setErrorMessage("");
         } else {
             setPrimeMessage("");
@@ -125,7 +116,8 @@ const DivisorsChecker = () => {
                     icon="playOutline" 
                     style={{ 
                         marginRight: "0.5rem",
-                    }} />
+                    }}
+                />
                 <Text color='inherit'>Verificar</Text>
             </Button>
         </VFlow>
