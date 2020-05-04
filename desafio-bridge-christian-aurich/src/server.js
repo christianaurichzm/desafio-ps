@@ -13,48 +13,22 @@ app.get("/", (req, res) => {
     res.send({ express: "Express server" });
 });
 
-const primeCheck = (number) => {
-    let isPrime = true;
+app.post("/number-checker", (req, res) => {
+    const number = parseInt(req.body.number);
+    let isPrime = false;
+    const divisors = [];    
 
-    if (number < 2) {
-        isPrime = false;
-    } else {
-        for (let i = 2; i < number; i++) {
-            if (number % i === 0) {
-                isPrime = false;
-            }
+    for (let i = 1; i <= number; i++) {
+        if (number % i === 0) {
+            divisors.push(i);
         }
     }
 
-    return isPrime;
-};
-
-app.post("/prime-checker", (req, res) => {
-    const number = parseInt(req.body.number);
-
-    res.json({ ok: false, isPrime: primeCheck(number) });
-});
-
-app.post("/divisors-checker", (req, res) => {
-    const number = parseInt(req.body.number);
-
-    let divisors = [1];
-
-    if (primeCheck(number)) {
-        divisors.push(number);
-    } else {
-        if (number !== 0) {
-            for (let i = 2; i <= number; i++) {
-                if (number % i === 0) {
-                    divisors.push(i);
-                }
-            }
-        } else {
-            divisors.shift();
-        }
+    if (divisors.length === 2) {
+        isPrime = true;
     }
 
-    res.json({ ok: false, divisors });
+    res.json({ divisors, isPrime });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
