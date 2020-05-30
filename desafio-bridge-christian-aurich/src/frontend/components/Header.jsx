@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Text, VFlow } from "bold-ui";
+import { Text, VFlow } from 'bold-ui';
 
 const Header = () => (
     <VFlow vSpacing={1.8}>

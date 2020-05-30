@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { trackPromise, usePromiseTracker } from "react-promise-tracker";
+import React, { useState } from 'react';
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
-import { Button, TextField, PagedTable, Icon, Text, VFlow } from "bold-ui";
-import ErrorMessage from "./ErrorMessage";
-import { numberCheckerService } from "../services.js";
-import naturalNumberChecker from "../utils/naturalNumberChecker.js";
+import { Button, TextField, PagedTable, Icon, Text, VFlow } from 'bold-ui';
+import ErrorMessage from './ErrorMessage';
+import { numberCheckerService } from '../services.js';
+import naturalNumberChecker from '../utils/naturalNumberChecker.js';
 
 const DivisorsChecker = () => {
     const [inputedNumber, setInputedNumber] = useState(null);
-    const [primeMessage, setPrimeMessage] = useState("Nenhum número foi digitado ainda.");
+    const [primeMessage, setPrimeMessage] = useState('Nenhum número foi digitado ainda.');
     const [divisors, setDivisors] = useState([]);
     const [tableParams, setTableParams] = useState({
         page: 0,
         size: 10,
     });
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
     const { promiseInProgress } = usePromiseTracker();
 
     const rows = divisors
@@ -55,11 +55,11 @@ const DivisorsChecker = () => {
     const submitNumber = (number) => {
         if (naturalNumberChecker(Number(number))) {
             numberChecker(Number(number));
-            setErrorMessage("");
+            setErrorMessage('');
         } else {
-            setPrimeMessage("");
+            setPrimeMessage('');
             setDivisors([]);
-            setErrorMessage("Digite um número natural.");
+            setErrorMessage('Digite um número natural.');
         }
     };
 
@@ -67,7 +67,7 @@ const DivisorsChecker = () => {
         <VFlow
             vSpacing={2}
             style={{
-                padding: "40px",
+                padding: '40px',
             }}
         >
             {
@@ -83,7 +83,7 @@ const DivisorsChecker = () => {
                 required
                 onChange={(e) => setInputedNumber(e.target.value)}
             />
-            <Text color='inherit'>{primeMessage}</Text>
+            <Text color="inherit">{primeMessage}</Text>
             <div>
                 <PagedTable
                     rows={rows}
@@ -115,10 +115,10 @@ const DivisorsChecker = () => {
                 <Icon 
                     icon="playOutline" 
                     style={{ 
-                        marginRight: "0.5rem",
+                        marginRight: '0.5rem',
                     }}
                 />
-                <Text color='inherit'>Verificar</Text>
+                <Text color="inherit">Verificar</Text>
             </Button>
         </VFlow>
     );

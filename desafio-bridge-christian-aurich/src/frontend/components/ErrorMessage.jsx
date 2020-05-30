@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Text } from "bold-ui";
+import { Text } from 'bold-ui';
 
 const ErrorMessage = ({
     message
