@@ -4,16 +4,16 @@ import { Text, VFlow } from 'bold-ui';
 
 const Header = () => (
     <VFlow vSpacing={1.8}>
-        <Text>
-            <h1 className="header-default">
-                Desafio Bridge_ - Christian Aurich Zanettini Martins
-            </h1>
+        <Text
+            component='h1'
+            fontSize={1.8}
+            color="primary"
+        >
+            Desafio Bridge_ - Christian Aurich Zanettini Martins
         </Text>
-        <Text>
-            <h4>
-                Insira um número natural (inteiro e positivo) no campo abaixo para poder
-                verificar se o mesmo é primo, e quais são seus divisores
-            </h4>
+        <Text component='h4'>
+            Insira um número no campo abaixo. Caso ele seja natural (inteiro e positivo), é possivel
+            verificar se o mesmo é primo, e quais são seus divisores.
         </Text>
     </VFlow>
 );

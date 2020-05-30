@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
-
 import { Button, TextField, PagedTable, Icon, Text, VFlow } from 'bold-ui';
+
 import ErrorMessage from './ErrorMessage';
-import { numberCheckerService } from '../services.js';
 import naturalNumberChecker from '../utils/naturalNumberChecker.js';
+import { numberCheckerService } from '../services.js';
 
 const DivisorsChecker = () => {
     const [inputedNumber, setInputedNumber] = useState(null);
-    const [primeMessage, setPrimeMessage] = useState('Nenhum número foi digitado ainda.');
     const [divisors, setDivisors] = useState([]);
+    const [primeMessage, setPrimeMessage] = useState('Nenhum número foi verificado ainda.');
+    const [errorMessage, setErrorMessage] = useState(null);
     const [tableParams, setTableParams] = useState({
         page: 0,
         size: 10,
     });
-    const [errorMessage, setErrorMessage] = useState('');
     const { promiseInProgress } = usePromiseTracker();
 
     const rows = divisors
@@ -45,7 +45,9 @@ const DivisorsChecker = () => {
                     `O número ${inputedNumber} não é primo`);
                     setDivisors(divisors);
                     setTableParams((prevState) => ({
-                        ...prevState, totalElements: divisors.length, totalPages: Math.max(1, Math.floor((divisors.length / prevState.size) + 1)) 
+                        ...prevState,
+                        totalElements: divisors.length,
+                        totalPages: Math.max(1, Math.floor((divisors.length / prevState.size) + 1)) 
                     }));
                 })
         )
@@ -55,7 +57,7 @@ const DivisorsChecker = () => {
     const submitNumber = (number) => {
         if (naturalNumberChecker(Number(number))) {
             numberChecker(Number(number));
-            setErrorMessage('');
+            setErrorMessage(null);
         } else {
             setPrimeMessage('');
             setDivisors([]);
